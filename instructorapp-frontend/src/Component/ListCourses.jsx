@@ -18,7 +18,7 @@ function withnavigateWrapped(WrappedComponent) {
 //         const navigate2 = useNavigate();
 //         return <WrappedComponent {...props} navigate={navigate2} />;
 //     }
-//}
+
 
 class ListCourses extends Component {
 
