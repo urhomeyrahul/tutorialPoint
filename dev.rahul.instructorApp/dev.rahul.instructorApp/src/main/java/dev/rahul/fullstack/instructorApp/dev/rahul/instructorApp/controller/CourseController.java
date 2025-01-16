@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.service.CourseService;
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.entity.Course;
@@ -46,25 +44,28 @@ public class CourseController {
 
 	// ADDING COURSE TO THE COURSES LIST
 
-	@PostMapping("/{username}/courses/{id}")
-	public ResponseEntity<Void> createCourse(@PathVariable String username,
-			@RequestBody Course course) {
-		Course createdCourse = courseService.save(course);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(createdCourse.getId())
-				.toUri();
-		return ResponseEntity.created(uri).build();
-	}
+	// @PostMapping("/{username}/courses/{id}")
+	// public ResponseEntity<Void> createCourse(@PathVariable String username,
+	// @RequestBody Course course) {
+	// Course createdCourse = courseService.save(course);
+	// URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+	// .path("/{id}")
+	// .buildAndExpand(createdCourse.getId())
+	// .toUri();
+	// return ResponseEntity.created(uri).build();
+	// }
 
 	// UPDATING THE COURSE CONTENTS OF COURSE
 
 	@PutMapping("/{username}/courses/{id}")
-	public ResponseEntity<Course> updateCourse(@PathVariable String username,
+	public ResponseEntity<String> updateCourse(@PathVariable String username,
 			@PathVariable Long id, @RequestBody Course course) {
-
-		return new ResponseEntity<Course>(courseService.save(course),
-				HttpStatus.OK);
+		int updateCount = courseService.updateCourse(id, course.getUsername(), course.getDescription());
+		if (updateCount == 1) {
+			return ResponseEntity.ok("Course Updated Successfully");
+		} else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
+		}
 	}
 
 	// GETTING A COURSE BY IT'S ID
@@ -78,8 +79,8 @@ public class CourseController {
 
 	// DELETEING A COURSE FROM ITS LIST
 
-	@DeleteMapping("/{username}/courses/{id}")
-	public ResponseEntity<String> deleteCourse(@PathVariable("username") String username, @PathVariable("id") Long id) {
+	@DeleteMapping("/username/courses/delete/{id}")
+	public ResponseEntity<String> deleteCourse(@PathVariable String username, @PathVariable Long id) {
 		Optional<Course> deletedCourse = courseService.deleteById(id);
 		if (deletedCourse.isPresent()) {
 			return ResponseEntity.ok("Deleted Successfully");
