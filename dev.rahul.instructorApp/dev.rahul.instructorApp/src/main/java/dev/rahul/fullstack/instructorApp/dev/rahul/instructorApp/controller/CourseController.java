@@ -42,19 +42,6 @@ public class CourseController {
 		return courseService.findAll();
 	}
 
-	// ADDING COURSE TO THE COURSES LIST
-
-	// @PostMapping("/{username}/courses/{id}")
-	// public ResponseEntity<Void> createCourse(@PathVariable String username,
-	// @RequestBody Course course) {
-	// Course createdCourse = courseService.save(course);
-	// URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-	// .path("/{id}")
-	// .buildAndExpand(createdCourse.getId())
-	// .toUri();
-	// return ResponseEntity.created(uri).build();
-	// }
-
 	// UPDATING THE COURSE CONTENTS OF COURSE
 
 	@PutMapping("/{username}/courses/{id}")
@@ -79,12 +66,9 @@ public class CourseController {
 
 	// DELETEING A COURSE FROM ITS LIST
 
-	@DeleteMapping("/username/courses/delete/{id}")
+	@DeleteMapping("/{username}/courses/delete/{id}")
 	public ResponseEntity<String> deleteCourse(@PathVariable String username, @PathVariable Long id) {
-		Optional<Course> deletedCourse = courseService.deleteById(id);
-		if (deletedCourse.isPresent()) {
-			return ResponseEntity.ok("Deleted Successfully");
-		} else
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
+		courseService.deleteCourse(id);
+		return ResponseEntity.ok("Course Deleted Successfully");	
 	}
 }

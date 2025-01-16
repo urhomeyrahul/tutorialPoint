@@ -19,17 +19,6 @@ public class CourseServiceImpl implements CourseService {
 	public Optional<Course> getCourseById(Long id) {
 		return courseRepository.findById(id);
 	}
-	// Creating a new course
-
-	// public Course addNewCourse(CourseModel courseModel) {
-
-	// Course course = new Course(null, null, null);
-	// course.setDescription(courseModel.getDescription());
-	// course.setId(courseModel.getId());
-	// course.setUsername(courseModel.getUsername());
-	// courseRepository.save(course);
-	// return course;
-	// }
 
 	// DISPLAYING ALL THE COURSES IN 1 GO
 
@@ -39,33 +28,9 @@ public class CourseServiceImpl implements CourseService {
 
 	// DELETING A COURSE FROM LIST
 
-	public Optional<Course> deleteById(Long id) {
+	public void deleteCourse(Long id) {
 		courseRepository.deleteById(id);
-		return Optional.empty();
 	}
-
-	// Iterator<Course> iterator = courses.iterator();
-	// while (iterator.hasNext()) {
-	// Course course = iterator.next();
-	// if (course.getId() == id) {
-	// iterator.remove();
-	// return Optional.of(course);
-	// }
-	// }
-	// return Optional.empty();
-	// }
-
-	// DOING A ADD FEATURE IN COURSE LIST
-
-	// public Course save(Course course) {
-	// if (course.getId() <= 0) {
-	// course.setId(++idCounter);
-	// } else {
-	// deleteById(course.getId());
-	// }
-	// courses.add(course);
-	// return course;
-	// }
 
 	// Updating the course contents
 

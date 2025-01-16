@@ -10,12 +10,9 @@ public interface CourseService {
 
 	List<Course> findAll();
 
-	public Optional<Course> getCourseById(Long id);
+	Optional<Course> getCourseById(Long id);
 
-	public Optional<Course> deleteById(Long id);
+	void deleteCourse(Long id);
 
-	public int updateCourse(Long id, String username, String description);
-
-	// public Course addNewCourse(CourseModel courseModel);
-
+	int updateCourse(Long id, String username, String description);
 }
