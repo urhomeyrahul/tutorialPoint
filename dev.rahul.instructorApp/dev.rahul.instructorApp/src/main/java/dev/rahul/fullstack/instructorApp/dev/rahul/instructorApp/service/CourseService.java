@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.entity.Course;
+
 @Service
 public interface CourseService {
 
@@ -15,4 +16,6 @@ public interface CourseService {
 	void deleteCourse(Long id);
 
 	int updateCourse(Long id, String username, String description);
+
+	int addCourse(Long id, String username, String description);
 }

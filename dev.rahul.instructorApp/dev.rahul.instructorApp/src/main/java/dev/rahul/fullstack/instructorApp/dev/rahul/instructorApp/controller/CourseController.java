@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.service.CourseService;
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.entity.Course;
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.repository.CourseRepository;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 @RestController
@@ -55,6 +56,14 @@ public class CourseController {
 		}
 	}
 
+	// Adding a new Course to the database
+	@PostMapping("/{username}/courses/add/{id}")
+	public ResponseEntity<String> addCourse(@PathVariable String username, @PathVariable Long id,
+			@RequestBody Course course) {
+		courseService.addCourse(id, course.getUsername(), course.getDescription());
+		return ResponseEntity.ok("Course Added Successfully");
+	}
+
 	// GETTING A COURSE BY IT'S ID
 	@GetMapping("/{username}/courses/{id}")
 	public ResponseEntity<Course> getCourseById(
@@ -69,6 +78,7 @@ public class CourseController {
 	@DeleteMapping("/{username}/courses/delete/{id}")
 	public ResponseEntity<String> deleteCourse(@PathVariable String username, @PathVariable Long id) {
 		courseService.deleteCourse(id);
-		return ResponseEntity.ok("Course Deleted Successfully");	
+		return ResponseEntity.ok("Course Deleted Successfully");
 	}
+
 }

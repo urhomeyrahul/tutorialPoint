@@ -37,4 +37,9 @@ public class CourseServiceImpl implements CourseService {
 	public int updateCourse(Long id, String username, String description) {
 		return courseRepository.updateCourse(id, username, description);
 	}
+
+	// Adding a new course
+	public int addCourse(Long id, String username, String description){
+		return courseRepository.addCourse(id, username, description);
+	}
 }
