@@ -11,7 +11,7 @@ import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.model.CourseMod
 public interface CourseService {
 	
 	List<Course> findAll();
-	public Optional<Course> findById(Long id); 
+	public Optional<Course> getCourseById(Long id); 
 	public Optional<Course> deleteById(Long id);
 	public Course save (Course course);
 	public Course addNewCourse(CourseModel courseModel);

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import CourseService from '../Service/CourseService';
 import { useNavigate } from 'react-router-dom';
 
-const Instructor = "in28minutes";
+const Instructor = "Urhomey.Rahul";
 
 // using HIGH ORDER COMPONENT TO NAVIGATE TO PARTICULAR COURSE INSTEAD OF REFRESHING THE WHOLE PAGE
 

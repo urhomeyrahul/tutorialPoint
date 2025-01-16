@@ -20,30 +20,10 @@ public class CourseServiceImpl implements CourseService {
 	private static List<Course> courses = new ArrayList<Course>();
 	private static long idCounter = 0;
 
-	// . NO DATABASE, BUT DIRECTLY HARDCODING INTO THE STATIC CONSTRUCTOR AT TIME OF
-	// RUNNING
-
-	// static {
-
-	// courses.add(new Course(++idCounter,"Learn Full stack with Spring Boot and
-	// Angular", "in28minutes"));
-	// courses.add(new Course(++idCounter, "Learn Full stack with Spring Boot and
-	// React", "in28minutes"));
-	// courses.add(new Course(++idCounter, "Master Microservices with Spring Boot
-	// and Spring Cloud", "in28minutes"));
-	// courses.add(new Course(++idCounter,"Deploy Spring Boot Microservices to Cloud
-	// with Docker and Kubernetes", "in28minutes"));
-	// }
-
 	// FINDING BY A PARTICULAR ID
 
-	public Optional<Course> findById(Long id) {
-		for (Course course : courses) {
-			if (course.getId() == id) {
-				return Optional.of(course);
-			}
-		}
-		return null;
+	public Optional<Course> getCourseById(Long id) {
+		return courseRepository.findById(id);
 	}
 	// Creating a new course
 

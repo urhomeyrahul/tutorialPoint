@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import ListCourses from './ListCourses';
 import CourseComponent from './CourseComponent';
 
-
 class InstructorApp extends Component {
 
     render() {

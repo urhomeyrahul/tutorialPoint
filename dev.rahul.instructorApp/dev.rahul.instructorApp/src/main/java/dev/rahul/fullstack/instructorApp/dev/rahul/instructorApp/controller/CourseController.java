@@ -21,68 +21,69 @@ import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.service.CourseS
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.entity.Course;
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.repository.CourseRepository;
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:4200"})
+@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:4200" })
 @RestController
-public class CourseController{
+public class CourseController {
 
 	@Autowired
 	public CourseService courseService;
-	
+
 	@Autowired
 	public CourseRepository courseRepository;
 
 	public CourseController(CourseRepository courseRepository, CourseService courseService) {
-		//Default Controller
+		// Default Controller
 		this.courseRepository = courseRepository;
 		this.courseService = courseService;
 	}
 
-	//DISPLAYING ALL COURSES
+	// DISPLAYING ALL COURSES
 
-	@GetMapping("/courses")
-	public List<Course> getAllCourses(){
+	@GetMapping("/{username}/courses")
+	public List<Course> getAllCourses(@PathVariable String username) {
 		return courseService.findAll();
 	}
-	
-	//ADDING COURSE TO THE COURSES LIST
-	
-	@PostMapping("/instructors/{username}/courses")
+
+	// ADDING COURSE TO THE COURSES LIST
+
+	@PostMapping("/{username}/courses/{id}")
 	public ResponseEntity<Void> createCourse(@PathVariable String username,
 			@RequestBody Course course) {
-	    Course createdCourse = courseService.save(course);
-	    URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
-	                                         .path("/{id}")
-	                                         .buildAndExpand(createdCourse.getId())
-	                                         .toUri();
-	    return ResponseEntity.created(uri).build();
+		Course createdCourse = courseService.save(course);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}")
+				.buildAndExpand(createdCourse.getId())
+				.toUri();
+		return ResponseEntity.created(uri).build();
 	}
-	
+
 	// UPDATING THE COURSE CONTENTS OF COURSE
-	
-	@PutMapping("/instructors/{username}/courses/{id}")
+
+	@PutMapping("/{username}/courses/{id}")
 	public ResponseEntity<Course> updateCourse(@PathVariable String username,
-			@PathVariable Long id, @RequestBody Course course){
-		
+			@PathVariable Long id, @RequestBody Course course) {
+
 		return new ResponseEntity<Course>(courseService.save(course),
 				HttpStatus.OK);
 	}
-	
-	//GETTING A COURSE BY IT'S ID
-	
-	@GetMapping("/instructors/{username}/courses/{id}")
-	public ResponseEntity<Optional<Course>> getCourseById(@PathVariable String username, @PathVariable Long id) {
-		return new ResponseEntity<Optional<Course>>(courseService.findById(id),HttpStatus.OK);
+
+	// GETTING A COURSE BY IT'S ID
+	@GetMapping("/{username}/courses/{id}")
+	public ResponseEntity<Course> getCourseById(
+			@PathVariable String username, @PathVariable Long id) {
+		return courseService.getCourseById(id)
+				.map(course -> new ResponseEntity<>(course, HttpStatus.OK))
+				.orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 
-	//DELETEING A COURSE FROM ITS LIST
+	// DELETEING A COURSE FROM ITS LIST
 
-	@DeleteMapping("/instructors/{username}/courses/{id}")
-	public ResponseEntity<String> deleteCourse(@PathVariable("username") String username, @PathVariable("id") Long id){
+	@DeleteMapping("/{username}/courses/{id}")
+	public ResponseEntity<String> deleteCourse(@PathVariable("username") String username, @PathVariable("id") Long id) {
 		Optional<Course> deletedCourse = courseService.deleteById(id);
-		if(deletedCourse.isPresent()) {
+		if (deletedCourse.isPresent()) {
 			return ResponseEntity.ok("Deleted Successfully");
-		}
-		else 
-		 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
+		} else
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course not found");
 	}
 }
