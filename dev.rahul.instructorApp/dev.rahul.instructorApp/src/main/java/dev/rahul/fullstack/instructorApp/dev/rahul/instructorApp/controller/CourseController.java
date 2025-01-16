@@ -19,18 +19,28 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.service.CourseService;
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.entity.Course;
+import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.repository.CourseRepository;
 
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:4200"})
 @RestController
 public class CourseController{
-	
+
 	@Autowired
 	public CourseService courseService;
+	
+	@Autowired
+	public CourseRepository courseRepository;
+
+	public CourseController(CourseRepository courseRepository, CourseService courseService) {
+		//Default Controller
+		this.courseRepository = courseRepository;
+		this.courseService = courseService;
+	}
 
 	//DISPLAYING ALL COURSES
 
-	@GetMapping("/instructors/{username}/courses")
-	public List<Course> getAllCourses(@PathVariable String username){
+	@GetMapping("/courses")
+	public List<Course> getAllCourses(){
 		return courseService.findAll();
 	}
 	

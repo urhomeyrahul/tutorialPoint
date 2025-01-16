@@ -17,5 +17,3 @@ public interface CourseService {
 	public Course addNewCourse(CourseModel courseModel);
 
 }
-
-//}

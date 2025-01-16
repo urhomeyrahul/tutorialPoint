@@ -12,39 +12,43 @@ import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.model.*;
 import dev.rahul.fullstack.instructorApp.dev.rahul.instructorApp.repository.CourseRepository;
 
 @Service
-public class CourseServiceImpl implements CourseService{
-	
+public class CourseServiceImpl implements CourseService {
+
 	@Autowired
 	private CourseRepository courseRepository;
-	
+
 	private static List<Course> courses = new ArrayList<Course>();
 	private static long idCounter = 0;
 
-	//. NO DATABASE, BUT DIRECTLY HARDCODING INTO THE STATIC CONSTRUCTOR AT TIME OF RUNNING
+	// . NO DATABASE, BUT DIRECTLY HARDCODING INTO THE STATIC CONSTRUCTOR AT TIME OF
+	// RUNNING
 
-	static {
-		
-		courses.add(new Course(++idCounter,"Learn Full stack with Spring Boot and Angular", "in28minutes"));
-		courses.add(new Course(++idCounter, "Learn Full stack with Spring Boot and React", "in28minutes"));
-		courses.add(new Course(++idCounter, "Master Microservices with Spring Boot and Spring Cloud", "in28minutes"));
-		courses.add(new Course(++idCounter,"Deploy Spring Boot Microservices to Cloud with Docker and Kubernetes", "in28minutes"));
-	}
+	// static {
 
+	// courses.add(new Course(++idCounter,"Learn Full stack with Spring Boot and
+	// Angular", "in28minutes"));
+	// courses.add(new Course(++idCounter, "Learn Full stack with Spring Boot and
+	// React", "in28minutes"));
+	// courses.add(new Course(++idCounter, "Master Microservices with Spring Boot
+	// and Spring Cloud", "in28minutes"));
+	// courses.add(new Course(++idCounter,"Deploy Spring Boot Microservices to Cloud
+	// with Docker and Kubernetes", "in28minutes"));
+	// }
 
-	//FINDING BY A PARTICULAR ID
+	// FINDING BY A PARTICULAR ID
 
-	public Optional<Course> findById(Long id){
-		for(Course course : courses) {
-			if(course.getId() == id) {
+	public Optional<Course> findById(Long id) {
+		for (Course course : courses) {
+			if (course.getId() == id) {
 				return Optional.of(course);
 			}
 		}
 		return null;
 	}
-	//Creating a new course
-	
+	// Creating a new course
+
 	public Course addNewCourse(CourseModel courseModel) {
-		
+
 		Course course = new Course(null, null, null);
 		course.setDescription(courseModel.getDescription());
 		course.setId(courseModel.getId());
@@ -52,21 +56,21 @@ public class CourseServiceImpl implements CourseService{
 		courseRepository.save(course);
 		return course;
 	}
-	
-	//DISPLAYING ALL THE COURSES IN 1 GO
-	
-	public List<Course>findAll() {
-		return courses;
-	} 
 
-	//DELETING A COURSE FROM LIST
-	
+	// DISPLAYING ALL THE COURSES IN 1 GO
+
+	public List<Course> findAll() {
+		return courseRepository.findAll();
+	}
+
+	// DELETING A COURSE FROM LIST
+
 	public Optional<Course> deleteById(Long id) {
-	
+
 		Iterator<Course> iterator = courses.iterator();
-		while(iterator.hasNext()) {
+		while (iterator.hasNext()) {
 			Course course = iterator.next();
-			if(course.getId() == id) {
+			if (course.getId() == id) {
 				iterator.remove();
 				return Optional.of(course);
 			}
@@ -74,18 +78,15 @@ public class CourseServiceImpl implements CourseService{
 		return Optional.empty();
 	}
 
-	//DOING A ADD FEATURE IN COURSE LIST
-	
-	public Course save (Course course) {
-		if(course.getId() == -1 || course.getId() == 0) {
+	// DOING A ADD FEATURE IN COURSE LIST
+
+	public Course save(Course course) {
+		if (course.getId() <= 0) {
 			course.setId(++idCounter);
-			courses.add(course);
-		}
-		else {
+		} else {
 			deleteById(course.getId());
-			courses.add(course);
 		}
-		
+		courses.add(course);
 		return course;
-	}	
+	}
 }
